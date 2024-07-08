@@ -11,7 +11,7 @@ async function getLatestNews(): Promise<any> {
     return response.data;
   } catch (error) {
     console.error('Error fetching news:', error);
-    throw error; // Optional: Propagate the error further
+    throw error; 
   }
 }
 

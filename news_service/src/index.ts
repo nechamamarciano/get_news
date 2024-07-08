@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express';
 import getLatestNews from './getLatestNews';
-import createSummary from './createSummary';
-
 
 const app = express();
 const PORT = 4000;
@@ -16,12 +14,11 @@ app.get('/api/news/:id', async (req: Request, res: Response) => {
     try {
         const news = await getLatestNews();
         try {
-            const summaries = await createSummary(news);
-            res.json(summaries);
+          // const response = async getNewsPref(news, userId)
+          //   res.json(response)
           } 
           catch (error) {
-            console.error('Error creating summaries:', error);
-            // Handle error appropriately
+            console.error("Error getting news according to user's preferences:", error);
           }
       } 
       catch (error) {
