@@ -4,9 +4,14 @@ import bodyParser from 'body-parser';
 import { v4 as uuidv4 } from 'uuid';
 import db from './db';
 import User from './models/user_model';
+import connect_to_news_service from './connect_to_news_service';
+
+function generateUserID(): string {
+  return uuidv4();
+}
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(bodyParser.json());
 
@@ -15,8 +20,8 @@ app.post('/api/user', async (req: Request, res: Response) => {
   const { preferences, email } = req.body;
 
   try {
-    // Generate a userID (you can use UUID or any other method)
-    const userID = generateUserID(); // Implement this function
+    // Generate a userID
+    const userID = generateUserID();
 
     // Create new user instance
     const newUser = new User({
@@ -29,6 +34,9 @@ app.post('/api/user', async (req: Request, res: Response) => {
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully', userID });
+
+    connect_to_news_service(userID)
+
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ message: 'Failed to create user' });
@@ -39,9 +47,3 @@ app.post('/api/user', async (req: Request, res: Response) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-function generateUserID(): string {
-  return uuidv4();
-}
