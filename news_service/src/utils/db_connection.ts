@@ -1,1 +1,0 @@
-// connects to mongoDB and gets the user's preferences
