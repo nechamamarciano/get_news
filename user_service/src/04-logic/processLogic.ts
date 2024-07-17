@@ -21,6 +21,7 @@ export async function processFilteredNews(filteredNews:string){
             userEmail: userEmail
         };
         const response = await axios.post(EMAIL_SERVICE_URL, requestData);
+        console.log("the news have been sent to the email_service")
         return response.data;
     } catch (error) {
         console.error('Error sending the news to email service:', error);

@@ -3,7 +3,6 @@ import { connectToDatabase, getDatabase } from '../01-utils/db';
 
 
 async function addUserTableLogic() {
-    console.log("hii im here!")
     await connectToDatabase();
     const db = await getDatabase();
    

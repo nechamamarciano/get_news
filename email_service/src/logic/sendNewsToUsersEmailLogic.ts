@@ -10,7 +10,6 @@ export const sendNewsToUsersEmail = async (filteredNews: string, userEmail:strin
         const mailerSend = new MailerSend({
           apiKey: key,
         });
-        console.log(filteredNews)
         const sentFrom = new Sender("personalisednewsservice@gmail.com", "Your name");
         
         const recipients = [
@@ -28,6 +27,8 @@ export const sendNewsToUsersEmail = async (filteredNews: string, userEmail:strin
             .send(emailParams)
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
+
+          console.log("the news have been sent by email")
     } catch(error:any){
         console.log(error)
     }
