@@ -27,6 +27,7 @@ It then sends the news to the user via email.
 ## System Diagram
 
 The diagram illustrates the interactions between microservices and external components:
+![image](https://github.com/user-attachments/assets/9547aa65-8377-44d2-ba94-bd5340ff04a9)
 
 ## Running the Application Locally
 
