@@ -9,7 +9,8 @@ export const insertUserInDatabase = async (user:User) => {
     const id = uuidv4();
     const userWithId = { ...user, id };
     const db = getDatabase();
-    await db.collection('users').insertOne(userWithId);
+    console.log(userWithId)
+    await db.collection('users_table').insertOne(userWithId);
 
     console.log('Inserted new user in database with ID:', id);
     closeDatabase();

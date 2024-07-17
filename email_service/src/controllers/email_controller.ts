@@ -11,7 +11,7 @@ server.post('/email', async (req: Request, res: Response) => {
         const userEmail = requestData.userEmail;
 
         sendNewsToUsersEmail(filteredNews, userEmail);
-        return filteredNews;
+        res.json(`filtered news: ${filteredNews}`);
     } catch(error:any){
         console.log("error sending the filtered news", error)
     } 

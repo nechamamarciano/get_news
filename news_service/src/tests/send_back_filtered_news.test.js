@@ -18,7 +18,7 @@ describe('Sending News to Another HTTP Service', () => {
       // Check if request was successful (status code 200)
       expect(response.status).toBe(200);
 
-      // Optionally, log the response data
+      // log the response data
       console.log('Response:', response.data);
     } catch (error) {
       // Handle errors

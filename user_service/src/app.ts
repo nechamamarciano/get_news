@@ -4,7 +4,18 @@ import bodyParser from 'body-parser'
 import news_controller from './05-controllers/news_controller';
 import { catchAll } from './03-middleware.ts/catchAll';
 import { RouteNotFoundError } from './02-models/error_model';
+import addUserTableLogic from './04-logic/addUserTableLogic';
 
+
+async function prepareDb() {
+    try {
+        await addUserTableLogic();
+    } catch (err:any) {
+        console.error('Failed to initialize userTable collection:', err.message);
+    } 
+}
+
+prepareDb();
 const port = 3000;
 const server = express();
 server.use(bodyParser.json());

@@ -1,0 +1,79 @@
+version: '3'
+
+services:
+  user_service:
+    container_name: user_service
+    build:
+      context: ./user_service  # Replace with the actual path to Service A
+      dockerfile: Dockerfile         # Replace with the Dockerfile name if different
+    ports:
+      - "3000:3000"                  # Map container port 3000 to host port 3000
+    networks:
+      - my-network                   # Connect to a custom Docker network
+    depends_on:
+      - rabbitmq
+      - mongo
+    image: get_news-user_service 
+
+  news_service:
+    container_name: news_service
+    build:
+      context: ./news_service  # Replace with the actual path to Service B
+      dockerfile: Dockerfile         # Replace with the Dockerfile name if different
+    # ports:
+    #   - "3500:3500"                  # Map container port 4000 to host port 4000
+    networks:
+      - my-network 
+    depends_on:
+      - user_service 
+      - rabbitmq
+    image: get_news-news_service   
+
+  email_service:
+    container_name: email_service
+    build:
+      context: ./email_service  # Replace with the actual path to Service A
+      dockerfile: Dockerfile         # Replace with the Dockerfile name if different
+    ports:
+      - "4000:4000"                  # Map container port 3000 to host port 3000
+    networks:
+      - my-network                   # Connect to a custom Docker network
+    depends_on:
+      - user_service 
+      - news_service
+    image: get_news-email_service 
+
+# To Do: debug the rabbitMQ service connection for it to sun with docker-compose
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"  # Use the RabbitMQ image with management plugin
+    ports:
+      - "5672:5672"  # RabbitMQ main port
+      - "15672:15672"  # RabbitMQ management UI port
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    environment:
+      RABBITMQ_DEFAULT_USER: guest  
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq  # Persist RabbitMQ data
+
+  mongo:
+    image: mongo:latest   # MongoDB image
+    ports:
+      - "27017:27017"     # MongoDB port
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root    # MongoDB root user
+      MONGO_INITDB_ROOT_PASSWORD: example  # MongoDB root password
+    volumes:
+      - mongo_data:/data/db     # Persist MongoDB data
+
+volumes:
+  rabbitmq_data: 
+  mongo_data:           
+
+networks:
+    my-network:
+      driver: bridge

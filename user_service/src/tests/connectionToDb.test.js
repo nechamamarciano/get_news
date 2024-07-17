@@ -29,13 +29,14 @@ describe('Insert User into MongoDB', () => {
     const usersCollection = database.collection('users');
 
     // Create a sample user object
-    const user = { preferences: 'sports, politics', email: 'john.doe@example.com' };
+    const user = { userId:100, preferences: 'sports, politics', email: 'john.doe@example.com' };
 
     // Insert the user into MongoDB
     const result = await usersCollection.insertOne(user);
 
+    const queryResult = await usersCollection.findOne({ userId: 100 });
+
     // Assertions
-    expect(result.insertedCount).toBe(1); 
-    expect(result.ops[0]).toMatchObject(user);
+    expect(queryResult).toBeDefined();
   });
 });

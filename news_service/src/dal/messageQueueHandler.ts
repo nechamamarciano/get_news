@@ -1,7 +1,8 @@
 import * as amqp from 'amqplib';
 import { processRequest } from '../logic/processRequestLogic';
 
-const RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/';
+// const RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/';
+const RABBITMQ_URL ='amqp://guest:guest@localhost:5672/'
 const QUEUE = 'get_news_queue';
 
 export async function messageQueueHandler(): Promise<any> {
